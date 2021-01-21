@@ -1,0 +1,59 @@
+body {
+    height: 640px;
+    width: 480px;
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+h1{
+    background-color: gray;
+    text-align: center;
+    
+}
+
+.container {
+    background-color: gray;
+}
+
+.btn {
+    background: rgb(166, 228, 23);
+}
+
+form {
+    background-color: rgb(180, 202, 206);
+}
+
+.post {
+    float: left;
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+input[type=text] {
+    /* box-sizing: border-box; */
+    border: 2px solid red;
+    border-radius: 4px;
+    
+    
+}
+
+input[type=text]:focus {
+    /* box-sizing: border-box; */
+    border: 2px solid red;
+    border-radius: 4px;
+    background-color: #3CBC8D;
+    color: white;
+    width: 80%;
+}
+
+.timeStamp {
+    text-align: right;
+}
+
+
+.post-tilte {
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.8);
+    color: blue;
+}

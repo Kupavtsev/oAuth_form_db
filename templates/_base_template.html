@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+    <title>Flask example</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    
+    <h1 style='background-color: gray'>Welcome to Jinja2</h1>
+
+    {% block content %}
+    {% endblock %}
+    <script type="text/javascript"
+    src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
