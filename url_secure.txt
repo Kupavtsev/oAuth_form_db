@@ -1,0 +1,9 @@
+http://127.0.0.1:5000/
+http://localhost:5000/
+
+
+this is from MERN-boilerplate
+export AUTHLIB_INSECURE_TRANSPORT=1
+
+this is from Oauth Python
+export OAUTHLIB_INSECURE_TRANSPORT=1
