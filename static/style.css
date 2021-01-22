@@ -48,11 +48,6 @@ input[type=text]:focus {
     width: 80%;
 }
 
-.timeStamp {
-    text-align: right;
-}
-
-
 .post-tilte {
     box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.8);
     color: blue;
