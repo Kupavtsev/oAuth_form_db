@@ -13,7 +13,7 @@ class Storage():
 
 class BlogPostModel():
     def __init__(self, form_data):
-        self.title = form_data['title']
+        self.author = form_data['author']
         self.text = form_data['text']
         self.time_stamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
-        self.author = form_data['author']
+        
