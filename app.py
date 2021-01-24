@@ -18,10 +18,13 @@ except Exception as e:
 
 logger = logging.getLogger(__name__)
 
+
+# Connect to DataBase
+
 try:
     conn = psycopg2.connect(
         user='postgres',
-        password='32167',
+        password='123456',
         database='emphabd',
         host='localhost',
         port=5432,
@@ -32,7 +35,9 @@ except Exception as ex:
 
 app = Flask(__name__, template_folder='templates')
 app.config.from_object(config)
-# app.config["SECRET_KEY"]="SECRET KEY  "
+
+
+# oAuth2.0 GitHub connection
 
 github_blueprint = make_github_blueprint(client_id='a12c5ae7e06321b15813',
                                          client_secret='186c69aa548fbcdd8d9ec1780df87e86ad729cc4')
@@ -40,29 +45,20 @@ github_blueprint = make_github_blueprint(client_id='a12c5ae7e06321b15813',
 app.register_blueprint(github_blueprint, url_prefix='/github_login')
 
 
+# Routes
+# If you authorized, you'll get on registration form page
 @app.route('/')
 def github_login():
 
     if not github.authorized:
         return redirect(url_for('github.login'))
     else:
-        # account_info = github.get('/user')
-        # if account_info.ok:
-        #     account_info_json = account_info.json()
-        #     return '<h1>Your Github name is {}'.format(account_info_json['login'])
         return home()
 
     return '<h1>Request failed!</h1>'
 
 
-@app.route('/data', methods=["GET", "POST"])
-def data():
-    data = [time() * 1000, random() * 100]
-    response = make_response(json.dumps(data))
-    response.content_type = 'application/json'
-    return response
-
-
+# Main registration form
 @app.route('/form/', methods=['GET', 'POST'])
 def home():
     cur = conn.cursor()
@@ -71,6 +67,7 @@ def home():
     all_items = storage.items
 
     if request.method == 'POST':
+        # Show data on a the page, lower than form
         form = BlogPostForm(request.form)
         if form.validate():
             model = BlogPostModel(form.data)
@@ -79,9 +76,8 @@ def home():
         else:
             logger.error('Wrong form!')
             print('invalid', 400)
-    # elif request.method == 'GET':
-    #     return 'hello world!', 200
-
+    
+        # Saving data to DB
         db_form = DB_Form(request.form)
         if db_form.validate():
             username = db_form.username.data
@@ -102,6 +98,8 @@ def home():
         items=all_items,
     )
 
+# List of all registred users
+# get this data from DB
 @app.route('/list', methods=['GET'])
 def users_list():
     cur = conn.cursor()
@@ -110,9 +108,7 @@ def users_list():
         )
     data = cur.fetchall()
     response = make_response(json.dumps(data))
-    # response.content_type = 'application/json'
     return response
 
 if __name__ == "__main__":
     app.run()
-    # app.run(debug=True)

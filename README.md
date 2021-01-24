@@ -15,6 +15,7 @@ Create Database and run the development server:
 
 ```bash
 $ flask run
+$ python app.py
 ```
 
 Now, you can open your browser with `http://127.0.0.1:5000/`
