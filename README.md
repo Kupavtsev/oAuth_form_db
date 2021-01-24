@@ -1,4 +1,4 @@
-# oAuth 2.0 Provider with Form and SQlite
+# oAuth 2.0 Provider with Form and PostgreSQL
 
 ```bash
 $ pip install -r requirements.txt
