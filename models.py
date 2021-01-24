@@ -20,9 +20,12 @@ class BlogPostModel():
 
 
 # class User(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(40), unique=True)
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     username = db.Column(db.String(40), unique=True, nullable=False)
 #     text = db.Column(db.String(640), unique=False)
+
+#     def __str__(self):
+#         return("<User id - {}>".format(self.id))
 
 #     def get_user_id(self):
 #         return self.id

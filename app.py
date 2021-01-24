@@ -7,14 +7,28 @@ try:
     from flask import Flask, render_template, make_response
     from flask_dance.contrib.github import make_github_blueprint, github
     import logging
+    import psycopg2
 
     import config
     from models import Storage, BlogPostModel
-    from forms import BlogPostForm
+    from forms import BlogPostForm, DB_Form
+
 except Exception as e:
     print("Some Modules are Missings {}".format(e))
 
 logger = logging.getLogger(__name__)
+
+try:
+    conn = psycopg2.connect(
+        user='postgres',
+        password='32167',
+        database='emphabd',
+        host='localhost',
+        port=5432,
+    )
+except Exception as ex:
+    print('-----I am unable to connect to the database-----', ex)
+    raise ex
 
 app = Flask(__name__, template_folder='templates')
 app.config.from_object(config)
@@ -51,6 +65,7 @@ def data():
 
 @app.route('/form/', methods=['GET', 'POST'])
 def home():
+    cur = conn.cursor()
 
     storage = Storage()
     all_items = storage.items
@@ -66,6 +81,18 @@ def home():
             print('invalid', 400)
     # elif request.method == 'GET':
     #     return 'hello world!', 200
+
+        db_form = DB_Form(request.form)
+        if db_form.validate():
+            username = db_form.username.data
+            text = db_form.text.data
+            cur.execute(
+                """INSERT INTO public.users(
+                username, text) VALUES (
+                %(username)s, %(text)s)""",
+                {'username': username, 'text': text}
+            )
+            conn.commit()
     else:
         form = BlogPostForm()
 
@@ -75,6 +102,16 @@ def home():
         items=all_items,
     )
 
+@app.route('/list', methods=['GET'])
+def users_list():
+    cur = conn.cursor()
+    cur.execute(
+            """SELECT * from public.users;"""
+        )
+    data = cur.fetchall()
+    response = make_response(json.dumps(data))
+    # response.content_type = 'application/json'
+    return response
 
 if __name__ == "__main__":
     app.run()
