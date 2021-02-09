@@ -1,9 +1,7 @@
 try:
     from flask import Flask, render_template, url_for, request, redirect, make_response
-    import random
     import json
     from time import time
-    from random import random
     from flask import Flask, render_template, make_response
     from flask_dance.contrib.github import make_github_blueprint, github
     import logging
@@ -40,7 +38,7 @@ app.config.from_object(config)
 # oAuth2.0 GitHub connection
 
 github_blueprint = make_github_blueprint(client_id='a12c5ae7e06321b15813',
-                                         client_secret='186c69aa548fbcdd8d9ec1780df87e86ad729cc4')
+                                         client_secret='example')
 
 app.register_blueprint(github_blueprint, url_prefix='/github_login')
 
